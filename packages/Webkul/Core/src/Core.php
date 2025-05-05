@@ -142,8 +142,8 @@ class Core
 
         $this->currentChannel = $this->channelRepository->findWhereIn('hostname', [
             $hostname,
-            'http://'.$hostname,
-            'https://'.$hostname,
+            'http://' . $hostname,
+            'https://' . $hostname,
         ])->first();
 
         if (! $this->currentChannel) {
@@ -894,7 +894,7 @@ class Core
     {
         $adminName = $this->getConfigData('emails.configure.email_settings.admin_name')
             ?: (config('mail.admin.name')
-            ?: config('mail.from.name'));
+                ?: config('mail.from.name'));
 
         $adminEmail = $this->getConfigData('emails.configure.email_settings.admin_email')
             ?: config('mail.admin.address');
@@ -914,7 +914,7 @@ class Core
     {
         $contactName = $this->getConfigData('emails.configure.email_settings.contact_name')
             ?: (config('mail.contact.name')
-            ?: config('mail.from.name'));
+                ?: config('mail.from.name'));
 
         $contactEmail = $this->getConfigData('emails.configure.email_settings.contact_email')
             ?: config('mail.contact.address');

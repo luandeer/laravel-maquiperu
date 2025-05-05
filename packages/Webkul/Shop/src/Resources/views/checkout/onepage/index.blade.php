@@ -1,72 +1,59 @@
 <!-- SEO Meta Content -->
 @push('meta')
-    <meta name="description" content="@lang('shop::app.checkout.onepage.index.checkout')"/>
+<meta name="description" content="@lang('shop::app.checkout.onepage.index.checkout')" />
 
-    <meta name="keywords" content="@lang('shop::app.checkout.onepage.index.checkout')"/>
+<meta name="keywords" content="@lang('shop::app.checkout.onepage.index.checkout')" />
 @endPush
 
-<x-shop::layouts
-    :has-header="false"
-    :has-feature="false"
-    :has-footer="false"
->
+<x-shop::layouts :has-header="false" :has-feature="false" :has-footer="false">
     <!-- Page Title -->
     <x-slot:title>
         @lang('shop::app.checkout.onepage.index.checkout')
-    </x-slot>
+        </x-slot>
 
-    {!! view_render_event('bagisto.shop.checkout.onepage.header.before') !!}
+        {!! view_render_event('bagisto.shop.checkout.onepage.header.before') !!}
 
-    <!-- Page Header -->
-    <div class="flex-wrap">
-        <div class="flex w-full justify-between border border-b border-l-0 border-r-0 border-t-0 px-[60px] py-4 max-lg:px-8 max-sm:px-4">
-            <div class="flex items-center gap-x-14 max-[1180px]:gap-x-9">
-                <a
-                    href="{{ route('shop.home.index') }}"
-                    class="flex min-h-[30px]"
-                    aria-label="@lang('shop::checkout.onepage.index.bagisto')"
-                >
-                    <img
-                        src="{{ core()->getCurrentChannel()->logo_url ?? bagisto_asset('images/logo.svg') }}"
-                        alt="{{ config('app.name') }}"
-                        width="131"
-                        height="29"
-                    >
-                </a>
-            </div>
+        <!-- Page Header -->
+        <div class="flex-wrap">
+            <div
+                class="flex w-full justify-between border border-b border-l-0 border-r-0 border-t-0 px-[60px] py-4 max-lg:px-8 max-sm:px-4">
+                <div class="flex items-center gap-x-14 max-[1180px]:gap-x-9">
+                    <a href="{{ route('shop.home.index') }}" class="flex min-h-[30px]"
+                        aria-label="@lang('shop::checkout.onepage.index.bagisto')">
+                        <img src="{{ core()->getCurrentChannel()->logo_url ?? bagisto_asset('images/logo.svg') }}"
+                            alt="{{ config('app.name') }}" width="131" height="29">
+                    </a>
+                </div>
 
-            @guest('customer')
+                @guest('customer')
                 @include('shop::checkout.login')
-            @endguest
+                @endguest
+            </div>
         </div>
-    </div>
 
-    {!! view_render_event('bagisto.shop.checkout.onepage.header.after') !!}
+        {!! view_render_event('bagisto.shop.checkout.onepage.header.after') !!}
 
-    <!-- Page Content -->
-    <div class="container px-[60px] max-lg:px-8 max-sm:px-4">
+        <!-- Page Content -->
+        <div class="container px-[60px] max-lg:px-8 max-sm:px-4">
 
-        {!! view_render_event('bagisto.shop.checkout.onepage.breadcrumbs.before') !!}
+            {!! view_render_event('bagisto.shop.checkout.onepage.breadcrumbs.before') !!}
 
-        <!-- Breadcrumbs -->
-        @if ((core()->getConfigData('general.general.breadcrumbs.shop')))
+            <!-- Breadcrumbs -->
+            @if ((core()->getConfigData('general.general.breadcrumbs.shop')))
             <x-shop::breadcrumbs name="checkout" />
-        @endif
+            @endif
 
-        {!! view_render_event('bagisto.shop.checkout.onepage.breadcrumbs.after') !!}
+            {!! view_render_event('bagisto.shop.checkout.onepage.breadcrumbs.after') !!}
 
-        <!-- Checkout Vue Component -->
-        <v-checkout>
-            <!-- Shimmer Effect -->
-            <x-shop::shimmer.checkout.onepage />
-        </v-checkout>
-    </div>
+            <!-- Checkout Vue Component -->
+            <v-checkout>
+                <!-- Shimmer Effect -->
+                <x-shop::shimmer.checkout.onepage />
+            </v-checkout>
+        </div>
 
-    @pushOnce('scripts')
-        <script
-            type="text/x-template"
-            id="v-checkout-template"
-        >
+        @pushOnce('scripts')
+        <script type="text/x-template" id="v-checkout-template">
             <template v-if="! cart">
                 <!-- Shimmer Effect -->
                 <x-shop::shimmer.checkout.onepage />
@@ -146,7 +133,7 @@
                             prices: "{{ core()->getConfigData('sales.taxes.shopping_cart.display_prices') }}",
 
                             subtotal: "{{ core()->getConfigData('sales.taxes.shopping_cart.display_subtotal') }}",
-                            
+
                             shipping: "{{ core()->getConfigData('sales.taxes.shopping_cart.display_shipping_amount') }}",
                         },
 
@@ -171,10 +158,11 @@
                         this.$axios.get("{{ route('shop.checkout.onepage.summary') }}")
                             .then(response => {
                                 this.cart = response.data.data;
+                                console.log('Resumen del carrito:', response.data.data); // 👈 Aquí ves toda la data
 
                                 this.scrollToCurrentStep();
                             })
-                            .catch(error => {});
+                            .catch(error => { });
                     },
 
                     stepForward(step) {
@@ -208,7 +196,7 @@
                     scrollToCurrentStep() {
                         let container = document.getElementById('steps-container');
 
-                        if (! container) {
+                        if (!container) {
                             return;
                         }
 
@@ -240,5 +228,5 @@
                 },
             });
         </script>
-    @endPushOnce
+        @endPushOnce
 </x-shop::layouts>

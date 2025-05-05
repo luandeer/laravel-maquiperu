@@ -22,13 +22,14 @@ class AdminServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Route::middleware(['web', PreventRequestsDuringMaintenance::class])->group(__DIR__.'/../Routes/web.php');
 
-        $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'admin');
+        Route::middleware(['web', PreventRequestsDuringMaintenance::class])->group(__DIR__ . '/../Routes/web.php');
 
-        $this->loadViewsFrom(__DIR__.'/../Resources/views', 'admin');
+        $this->loadTranslationsFrom(__DIR__ . '/../Resources/lang', 'admin');
 
-        Blade::anonymousComponentPath(__DIR__.'/../Resources/views/components', 'admin');
+        $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'admin');
+
+        Blade::anonymousComponentPath(__DIR__ . '/../Resources/views/components', 'admin');
 
         $this->app->register(EventServiceProvider::class);
     }
@@ -39,17 +40,17 @@ class AdminServiceProvider extends ServiceProvider
     protected function registerConfig(): void
     {
         $this->mergeConfigFrom(
-            dirname(__DIR__).'/Config/menu.php',
+            dirname(__DIR__) . '/Config/menu.php',
             'menu.admin'
         );
 
         $this->mergeConfigFrom(
-            dirname(__DIR__).'/Config/acl.php',
+            dirname(__DIR__) . '/Config/acl.php',
             'acl'
         );
 
         $this->mergeConfigFrom(
-            dirname(__DIR__).'/Config/system.php',
+            dirname(__DIR__) . '/Config/system.php',
             'core'
         );
     }
